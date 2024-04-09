@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id                 Int      @id @default(autoincrement())
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  title              String   @db.VarChar(255)
+  address            String?  @db.VarChar(255)
+  phone              String?  @db.VarChar(255)
+  logo               String?  @db.VarChar(255)
+  registrationNumber Int?     @db.Integer
+  zipCode            Int?     @db.Integer
+  email              String?  @db.VarChar(255)
+  insurance          String   @db.VarChar(255)
+}
+
+model User {
+  id                 Int       @id @default(autoincrement())
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  fname              String    @db.VarChar(255)
+  lname              String    @db.VarChar(255)
+  passCode           String?   @db.VarChar(255)
+  birthDate          DateTime?
+  username           String    @db.VarChar(255)
+  password           String    @db.VarChar(255)
+  temporary_password String?   @db.VarChar(255)
+  role               Role
+}
+
+model Client {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  fname     String   @db.VarChar(255)
+  lname     String   @db.VarChar(255)
+  phone     String?  @db.VarChar(255)
+  address   String?  @db.VarChar(255)
+  email     String?  @db.VarChar(255)
+  Policy    Policy[]
+  debt      Int      @default(0)
+}
+
+model Policy {
+  id           Int          @id @default(autoincrement())
+  policyNumber Int
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  client       Client       @relation(fields: [clientId], references: [id])
+  price        Int          @default(0)
+  clientId     Int
+  instalments  instalment[]
+  description  String?      @db.VarChar(255)
+  expiration   DateTime
+}
+
+model instalment {
+  id        Int       @id @default(autoincrement())
+  price     Int       @default(0)
+  Policy    Policy?   @relation(fields: [policyId], references: [id])
+  policyId  Int?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  date      DateTime
+  isPaid    Boolean   @default(false)
+  paidAt    DateTime?
+}
+
+enum Role {
+  ADMIN
+  BASIC
+}
