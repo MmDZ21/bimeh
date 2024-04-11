@@ -44,6 +44,8 @@ model Client {
   phone     String?  @db.VarChar(255)
   address   String?  @db.VarChar(255)
   email     String?  @db.VarChar(255)
+  passCode  String?  @db.VarChar(255)
+  birthDate DateTime?
   Policy    Policy[]
   debt      Int      @default(0)
 }
