@@ -3,79 +3,94 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model Company {
-  id                 Int      @id @default(autoincrement())
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
-  title              String   @db.VarChar(255)
-  address            String?  @db.VarChar(255)
-  phone              String?  @db.VarChar(255)
-  logo               String?  @db.VarChar(255)
-  registrationNumber Int?     @db.Integer
-  zipCode            Int?     @db.Integer
-  email              String?  @db.VarChar(255)
-  insurance          String   @db.VarChar(255)
+  title              String
+  address            String?
+  phone              String?
+  logo               String?
+  registrationNumber String?
+  zipCode            String?
+  email              String?
+  insurance          String
 }
 
 model User {
-  id                 Int       @id @default(autoincrement())
-  createdAt          DateTime  @default(now())
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
   updatedAt          DateTime  @updatedAt
-  fname              String    @db.VarChar(255)
-  lname              String    @db.VarChar(255)
-  passCode           String?   @db.VarChar(255)
+  fname              String
+  lname              String
+  passCode           String?
   birthDate          DateTime?
-  username           String    @db.VarChar(255)
-  password           String    @db.VarChar(255)
-  temporary_password String?   @db.VarChar(255)
+  username           String
+  password           String
+  temporary_password String?
   role               Role
 }
 
 model Client {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  fname     String   @db.VarChar(255)
-  lname     String   @db.VarChar(255)
-  phone     String?  @db.VarChar(255)
-  address   String?  @db.VarChar(255)
-  email     String?  @db.VarChar(255)
-  passCode  String?  @db.VarChar(255)
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  fname     String
+  lname     String
+  phone     String?
+  address   String?
+  email     String?
+  passCode  String?
   birthDate DateTime?
   Policy    Policy[]
-  debt      Int      @default(0)
+  debt      Int       @default(0)
 }
 
 model Policy {
-  id           Int          @id @default(autoincrement())
-  policyNumber Int
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  client       Client       @relation(fields: [clientId], references: [id])
-  price        Int          @default(0)
-  clientId     Int
-  instalments  instalment[]
-  description  String?      @db.VarChar(255)
-  expiration   DateTime
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  policyNumber  Int
+  type          Type
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  clientId      String       @db.ObjectId
+  price         Int          @default(0)
+  instalments   instalment[]
+  quantity      Int?
+  monthsBetween Int?
+  description   String?
+  expiration    DateTime
+  Client        Client       @relation(fields: [clientId], references: [id])
 }
 
 model instalment {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
   price     Int       @default(0)
-  Policy    Policy?   @relation(fields: [policyId], references: [id])
-  policyId  Int?
+  policyId  String    @db.ObjectId
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   date      DateTime
   isPaid    Boolean   @default(false)
   paidAt    DateTime?
+  Policy    Policy    @relation(fields: [policyId], references: [id])
 }
 
 enum Role {
   ADMIN
   BASIC
+}
+
+enum Type {
+  FIRE
+  MTPL
+  CARGO
+  ENGINEERING
+  MOD
+  LIFE
+  EVENTS
+  HEALTH
+  TRAVEL
+  ETC
 }

@@ -2,6 +2,115 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: 222 83% 98%;
+    --foreground: 232 40% 33%;
+    --card: 0 0% 100%;
+    --card-foreground: 232 40% 33%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 232 40% 33%;
+    --primary: 252 99% 62%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 232 40% 33%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 232 40% 33%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 252 99% 62%;
+    --radius: 0.5rem;
+  }
 
-@layer utilities {
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 263.4 70% 50.4%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 263.4 70% 50.4%;
+  }
+}
+body {
+  font-family: "IranSans";
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: hsl(0, 0%, 76%);
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(0, 0%, 52%);
+}
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  @font-face {
+    font-family: "BYekan";
+    src: local("BYekan"),
+      url("../public/assets/fonts/BYekan.ttf") format("truetype");
+    font-weight: bold;
+  }
+  @font-face {
+    font-family: "BTitr";
+    src: local("BTitr"),
+      url("../public/assets/fonts/BTitr.ttf") format("truetype");
+    font-weight: bold;
+  }
+  @font-face {
+    font-family: "IranSans";
+    src: local("IranSansBold"),
+      url("../public/assets/fonts/IranSansBold.ttf") format("truetype");
+    font-weight: bold;
+  }
+  @font-face {
+    font-family: "IranSans";
+    src: local("IranSansRegular"),
+      url("../public/assets/fonts/IranSansRegular.ttf") format("truetype");
+    font-weight: normal;
+  }
+  @font-face {
+    font-family: "IranNastaliqWeb";
+    src: local("IranNastaliqWeb"),
+      url("../public/assets/fonts/IranNastaliqWeb.ttf") format("truetype");
+    font-weight: normal;
+  }
+  @font-face {
+    font-family: "Mt";
+    src: local("Mt"), url("../public/assets/fonts/Mt.ttf") format("truetype");
+    font-weight: bold;
+  }
 }

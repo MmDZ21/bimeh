@@ -1,0 +1,25 @@
+import { prisma } from "@/lib/prisma";
+import { auth } from "@clerk/nextjs";
+
+export async function GET(request: Request) {
+  const { userId } = auth();
+  if (!userId) {
+    return new Response("عدم دسترسی", { status: 401 });
+  }
+  try {
+    const clients = await prisma.client.findMany({
+      include: {
+        Policy: {
+          include: {
+            Client: true,
+            instalments: true,
+          },
+        },
+      },
+    });
+    return new Response(JSON.stringify(clients), { status: 200 });
+  } catch (error) {
+    console.error("Error creating company: ", error);
+    return new Response("Internal server error: ", { status: 500 });
+  }
+}
